@@ -18,7 +18,9 @@ RUN apt update &&                                                               
         dnsutils                                                                                   \
         fzf                                                                                        \
         gettext                                                                                    \
+        gh                                                                                         \
         git                                                                                        \
+        gnupg                                                                                      \
         gzip                                                                                       \
         htop                                                                                       \
         iproute2                                                                                   \
@@ -52,6 +54,11 @@ RUN apt update &&                                                               
         zsh-syntax-highlighting                                                                    \
         zsh                                                                                        \
         &&                                                                                         \
+    curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor && \
+    echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" > /etc/apt/sources.list.d/mongodb-org-8.0.list && \
+    apt update && \
+    apt install -y --no-install-recommends mongodb-database-tools &&                               \
+        apt install -y --no-install-recommends mongodb-mongosh &&                                  \
     mkdir -p /opt && \
     cd /opt && \
     wget https://archive.apache.org/dist/kafka/4.3.1/kafka_2.13-4.3.1.tgz && \
